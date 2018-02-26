@@ -218,14 +218,14 @@ public class UDPgui extends javax.swing.JFrame {
         random = new Random();
         
         if(serverRadioButton.isSelected()){
-            Thread thread_1 = new UDServer();
-            thread_1.start();
+            Thread server = new UDServer();
+            server.start();
             simulateButton.setEnabled(false);
         }
         else if(clientRadioButton.isSelected()){
-            Thread thread_2 = new UDClient();
+            Thread client = new UDClient();
             generateIP(iPTextField.getText());
-            thread_2.start();
+            client.start();
             simulateButton.setEnabled(false);  
             iPTextField.setEditable(false);
            
@@ -258,18 +258,14 @@ public class UDPgui extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new UDPgui().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new UDPgui().setVisible(true);
         });
     }
 
     private DatagramSocket socket;
-    private byte[] buffer = new byte[256];
+    private final byte[] buffer = new byte[256];
     private Random random;
     long startTime;
     long stopTime;
@@ -322,7 +318,7 @@ public class UDPgui extends javax.swing.JFrame {
 
                             Thread.sleep(random.nextInt(201));
                         }
-                        catch(Exception e){}
+                        catch(InterruptedException e){}
                         socket.send(packet);
                     }
                     else{
@@ -341,6 +337,7 @@ public class UDPgui extends javax.swing.JFrame {
     }
     class UDClient extends Thread{
  
+        @Override
         public void run(){
         String hostname="localhost";    String message = "HELLO USING UDP!";
         while(clientSent < 11){
@@ -425,7 +422,7 @@ public class UDPgui extends javax.swing.JFrame {
                 System.out.println("test");
                 received = true;
             }
-            catch(Exception e){}
+            catch(IOException e){}
         }
     }
     /**
