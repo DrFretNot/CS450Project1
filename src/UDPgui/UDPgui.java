@@ -322,8 +322,9 @@ public class UDPgui extends javax.swing.JFrame {
                         socket.send(packet);
                     }
                     else{
-                        sharedTextArea.append("Lost packet " + clientSent
+                        sharedTextArea.append("Number of Lost packets: " + clientSent
                                 + ".\n");
+                        clientSent++;
                     }
                     sharedTextArea.append("\n");
                 }
