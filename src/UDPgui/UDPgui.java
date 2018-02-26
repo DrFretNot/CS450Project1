@@ -15,12 +15,13 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Date;
 import java.util.Random;
+import javax.swing.JOptionPane;
 
 /**
  *
- * @author trent ford
- * @author chase cook
- * @author blake moman
+ * @author Chase Cook
+ * @author Trent Ford
+ * @author Blake Moman
  * 
  * CS 450 Networking Project #1
  */
@@ -32,7 +33,21 @@ public class UDPgui extends javax.swing.JFrame {
     public UDPgui() {
         initComponents();
     }
-
+    public void generateIP(String s){
+        String[] temp = s.split("\\.");
+        byte[] address = new byte[4];
+        try{
+        address[0] = (byte)Integer.parseInt(temp[0]);
+        address[1] = (byte)Integer.parseInt(temp[1]);
+        address[2] = (byte)Integer.parseInt(temp[2]);
+        address[3] = (byte)Integer.parseInt(temp[3]);
+        
+        ip = InetAddress.getByAddress(address);
+        }
+        catch(ArrayIndexOutOfBoundsException | UnknownHostException e){
+            JOptionPane.showMessageDialog(null, "The target IP address you entered is invalid, please enter a valid one", "Invalid Input", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -42,142 +57,207 @@ public class UDPgui extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        SimulateButton = new javax.swing.JButton();
+        options = new javax.swing.ButtonGroup();
+        simulateButton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        instructionsLabel = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        ClientTextArea = new javax.swing.JTextArea();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        ServerTextArea = new javax.swing.JTextArea();
-        jLabel3 = new javax.swing.JLabel();
+        sharedTextArea = new javax.swing.JTextArea();
+        sharedLabel = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        iPTextField = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        portLabel = new javax.swing.JLabel();
+        serverRadioButton = new javax.swing.JRadioButton();
+        clientRadioButton = new javax.swing.JRadioButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
+        sharedRulesLabel = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        rulesTextArea = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setAlwaysOnTop(true);
 
-        SimulateButton.setText("Simulate");
-        SimulateButton.addActionListener(new java.awt.event.ActionListener() {
+        simulateButton.setText("Simulate");
+        simulateButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SimulateButtonActionPerformed(evt);
+                simulateButtonActionPerformed(evt);
             }
         });
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 36)); // NOI18N
-        jLabel1.setText("UDP Program");
+        jLabel1.setText("UDP Simulator");
 
-        instructionsLabel.setText("Simulate Packet switching across a network! Just press the button.");
+        sharedTextArea.setEditable(false);
+        sharedTextArea.setColumns(20);
+        sharedTextArea.setRows(5);
+        jScrollPane1.setViewportView(sharedTextArea);
 
-        ClientTextArea.setEditable(false);
-        ClientTextArea.setColumns(20);
-        ClientTextArea.setRows(5);
-        jScrollPane1.setViewportView(ClientTextArea);
+        sharedLabel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        sharedLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        sharedLabel.setText("Server");
 
-        ServerTextArea.setEditable(false);
-        ServerTextArea.setColumns(20);
-        ServerTextArea.setRows(5);
-        jScrollPane2.setViewportView(ServerTextArea);
+        jLabel2.setText("Target IP Address:");
 
-        jLabel3.setText("Client");
+        iPTextField.setEditable(false);
 
-        jLabel4.setText("Server");
+        jLabel4.setText("Example: 123.456.7.89");
 
-        portLabel.setText("Port");
+        options.add(serverRadioButton);
+        serverRadioButton.setSelected(true);
+        serverRadioButton.setText("Server");
+        serverRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                serverRadioButtonActionPerformed(evt);
+            }
+        });
+
+        options.add(clientRadioButton);
+        clientRadioButton.setText("Client");
+        clientRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clientRadioButtonActionPerformed(evt);
+            }
+        });
+
+        jTextArea1.setEditable(false);
+        jTextArea1.setBackground(new java.awt.Color(240, 240, 240));
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jTextArea1.setText("Welcome to the UDP Simulator! To get started you will need a few things:\n1. This program installed on the two computers you wish to run it on\n2. The ip address of these two computers.\n3. To decide which one will be the Server and the other the Client\n");
+        jScrollPane2.setViewportView(jTextArea1);
+
+        sharedRulesLabel.setText("Server Guide:");
+
+        rulesTextArea.setEditable(false);
+        rulesTextArea.setBackground(new java.awt.Color(240, 240, 240));
+        rulesTextArea.setColumns(20);
+        rulesTextArea.setRows(5);
+        rulesTextArea.setText("1. Press the Simulate button to get started.\n\n2. Once you do, start the Client Simulations\n on the other computer\n\n3. Once you press Simulate, it will disable\n the button.\n\n4. In order to change your selction of Server, you\n will have to close and relaunch the program");
+        rulesTextArea.setWrapStyleWord(true);
+        jScrollPane3.setViewportView(rulesTextArea);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(59, 59, 59)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(309, 309, 309)
+                        .addGap(214, 214, 214)
                         .addComponent(jLabel1))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(90, 90, 90)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel4))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(instructionsLabel)
-                                    .addComponent(portLabel))
-                                .addGap(28, 28, 28)
-                                .addComponent(SimulateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(59, 59, 59)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 363, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(76, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(147, 147, 147)
+                                .addComponent(sharedRulesLabel))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(38, 38, 38)
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(16, 16, 16)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(clientRadioButton)
+                            .addComponent(serverRadioButton))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
+                    .addComponent(iPTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4)
+                    .addComponent(simulateButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(125, 125, 125))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(165, 165, 165)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(sharedLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 628, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addGap(13, 13, 13)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(instructionsLabel)
-                    .addComponent(SimulateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(portLabel)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(164, 164, 164)
+                        .addComponent(simulateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(69, 69, 69)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(iPTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel4))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jLabel1)
+                                .addGap(6, 6, 6)
+                                .addComponent(serverRadioButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(clientRadioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addContainerGap(57, Short.MAX_VALUE)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                        .addComponent(sharedLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(sharedRulesLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void SimulateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SimulateButtonActionPerformed
+    private void simulateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_simulateButtonActionPerformed
         random = new Random();
-        Thread thread_2 = new UDClient();
-        Thread thread_1 = new UDServer();
-        thread_2.start();
-        thread_1.start();
-    }//GEN-LAST:event_SimulateButtonActionPerformed
+        
+        if(serverRadioButton.isSelected()){
+            Thread thread_1 = new UDServer();
+            thread_1.start();
+            simulateButton.setEnabled(false);
+        }
+        else if(clientRadioButton.isSelected()){
+            Thread thread_2 = new UDClient();
+            generateIP(iPTextField.getText());
+            thread_2.start();
+            simulateButton.setEnabled(false);  
+            iPTextField.setEditable(false);
+           
+        }
+       
+    }//GEN-LAST:event_simulateButtonActionPerformed
+
+    private void serverRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_serverRadioButtonActionPerformed
+        // TODO add your handling code here:
+        sharedLabel.setText("Server");
+        iPTextField.setEditable(false);
+        sharedRulesLabel.setText("Server Guide: ");
+        rulesTextArea.setText("1. Press the Simulate button to get started.\n\n"
+                + "2. Once you do, start the Client Simulations\n on the other computer\n\n"
+                + "3. Once you press Simulate, it will disable\n the button.\n\n"
+                + "4. In order to change your selction of Server, you\n will have to close and relaunch the program");
+    }//GEN-LAST:event_serverRadioButtonActionPerformed
+
+    private void clientRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientRadioButtonActionPerformed
+        // TODO add your handling code here:
+        sharedLabel.setText("Client");
+        iPTextField.setEditable(true);
+        sharedRulesLabel.setText("Client Guide: ");
+        rulesTextArea.setText("1. Enter the IP address in the correct format of\n the computer you are running Server on.\n\n"
+                + "2. Once entered, press Simulate to send 10\n packets to the Server\n\n"
+                + "3. To send more packets or to change your choice,\n you will have to close and relaunch the program");
+    }//GEN-LAST:event_clientRadioButtonActionPerformed
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(UDPgui.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(UDPgui.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(UDPgui.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(UDPgui.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -189,7 +269,6 @@ public class UDPgui extends javax.swing.JFrame {
     }
 
     private DatagramSocket socket;
-    private boolean received = false;
     private byte[] buffer = new byte[256];
     private Random random;
     long startTime;
@@ -198,15 +277,9 @@ public class UDPgui extends javax.swing.JFrame {
     long totalDuration;
     long[] pings;
     int clientSent = 1;
-    
-  /*  public UserDatagramProtocol(){
-        random = new Random();
-        Thread thread_2 = new UDClient();
-        Thread thread_1 = new UDServer();
-        thread_2.start();
-        thread_1.start();
-    }*/
-    
+    public boolean received;
+    public static InetAddress ip;
+
     class UDServer extends Thread{
         @Override
         public void run(){
@@ -217,63 +290,57 @@ public class UDPgui extends javax.swing.JFrame {
                 // Create a datagram socket, bound to the specific port 2000
                 DatagramSocket socket = new DatagramSocket(2000);
 
-                //System.out.println ("Bound to local port " + socket.getLocalPort());
-                portLabel.setText("Bound to local port " + socket.getLocalPort());
+                sharedTextArea.append("Bound to local port " + socket.getLocalPort() + "\n");
                 while(true){ 
                     // Create a datagram packet, containing a maximum buffer of 256 byte 
-                DatagramPacket packet = new DatagramPacket( new byte[256], 256 );
+                    DatagramPacket packet = new DatagramPacket( new byte[256], 256 );
 
-                // Receive a packet - remember by default this is a blocking operation
-                
-                socket.receive(packet);
-                if(random.nextInt(3) != 1){
-                    received = true;
-                    ServerTextArea.append("Packet received at " + new Date( ) + "\n");
-                    //System.out.println ("Packet received at " + new Date( ));
-                    // Display packet information
-                    InetAddress remote_addr = packet.getAddress();
-                    ServerTextArea.append("Sender: " + remote_addr.getHostAddress( ) +"\n");
-                    ServerTextArea.append("from Port: " + packet.getPort() + "\n");
+                    // Receive a packet - remember by default this is a blocking operation
 
-                    // Display packet contents, by reading from byte array
-                    ByteArrayInputStream bin = new ByteArrayInputStream(packet.getData());
+                    socket.receive(packet);
+                    if(random.nextInt(3) != 1){
+                        received = true;
+                        sharedTextArea.append("Packet received at " + new Date( ) + "\n");
+                        // Display packet information
+                        InetAddress remote_addr = packet.getAddress();
+                        sharedTextArea.append("Sender: " + remote_addr.getHostAddress( ) +"\n");
+                        sharedTextArea.append("from Port: " + packet.getPort() + "\n");
 
-                    // Display only up to the length of the original UDP packet
-                    for (int i=0; i < packet.getLength(); i++)  {
-                            int data = bin.read();
-                            if (data == -1) break;
+                        // Display packet contents, by reading from byte array
+                        ByteArrayInputStream bin = new ByteArrayInputStream(packet.getData());
 
-                            else ServerTextArea.append( (char) data + "");
-                            
+                        // Display only up to the length of the original UDP packet
+                        for (int i=0; i < packet.getLength(); i++)  {
+                                int data = bin.read();
+                                if (data == -1) break;
+
+                                else sharedTextArea.append( (char) data + "");
+
+                        }
+                        sharedTextArea.append("\n");
+                        try{
+
+                            Thread.sleep(random.nextInt(201));
+                        }
+                        catch(Exception e){}
+                        socket.send(packet);
                     }
-                    ServerTextArea.append("\n");
-                    try{
-                        
-                        Thread.sleep(random.nextInt(201));
+                    else{
+                        sharedTextArea.append("Lost packet " + clientSent
+                                + ".\n");
                     }
-                    catch(Exception e){}
-                    socket.send(packet);
+                    sharedTextArea.append("\n");
                 }
-                else{
-                    ServerTextArea.append("Lost packet " + clientSent
-                            + ".\n");
-                    
-                    clientSent++;
-                    
-                }
-                ServerTextArea.append("\n");
-            }
             }   
             catch (IOException e) 	{
-                    ServerTextArea.append("Error - " + e + "\n\n");
+                sharedTextArea.append("Error - " + e + "\n\n");
                     
             }
             
         }
     }
     class UDClient extends Thread{
-        //use localhost to experiment on a standalone computer
-        @Override
+ 
         public void run(){
         String hostname="localhost";    String message = "HELLO USING UDP!";
         while(clientSent < 11){
@@ -282,57 +349,83 @@ public class UDPgui extends javax.swing.JFrame {
 		// Create a datagram socket, look for the first available port
 		DatagramSocket socket = new DatagramSocket();
 
-		ClientTextArea.append("Using local port: " + socket.getLocalPort()+"\n");
+		sharedTextArea.append("Using local port: " + socket.getLocalPort()+"\n");
                 ByteArrayOutputStream bOut = new ByteArrayOutputStream();
                 PrintStream pOut = new PrintStream(bOut);
                 pOut.print(message);
                 //convert printstream to byte array
+                InetAddress remote_addr = InetAddress.getByName(hostname);
+                if(ip != null){
+                    remote_addr = ip;
+                }
                 byte [ ] bArray = bOut.toByteArray();
 		// Create a datagram packet, containing a maximum buffer of 256 bytes
 		DatagramPacket packet=new DatagramPacket( bArray, bArray.length );
 
-                ClientTextArea.append("Looking for hostname " + hostname+"\n");
-                    //get the InetAddress object
-                InetAddress remote_addr = InetAddress.getByName(hostname);
+                sharedTextArea.append("Looking for hostname " + hostname+"\n");
+                //get the InetAddress object
                 //check its IP number
-                ClientTextArea.append("Hostname has IP address = " + remote_addr.getHostAddress() + "\n");
-                        //configure the DataGramPacket
-                        packet.setAddress(remote_addr);
-                        packet.setPort(2000);
-                        //send the packet
-                        Random random = new Random();
-                       //if(random.nextInt(2) == 1){
-                            socket.send(packet);
-                            //startTime = System.currentTimeMillis();
-                       //}
-                       //socket.close();
-		ClientTextArea.append("Packet sent at! " + new Date() + "\n");
-
+                sharedTextArea.append("Hostname has IP address = " + remote_addr.getHostAddress() + "\n");
+                //configure the DataGramPacket
+                packet.setAddress(remote_addr);
+                packet.setPort(2000);
+                //send the packet
+                Random random = new Random();
+                socket.send(packet);
+		sharedTextArea.append("Packet sent at! " + new Date() + "\n");
 		// Display packet information
-		ClientTextArea.append("Sent by  : " + remote_addr.getHostAddress() +"\n");
-        		ClientTextArea.append("Send from: " + packet.getPort() +"\n");
-                waitTime = System.currentTimeMillis();
-                while((System.currentTimeMillis()-waitTime) < 300 && !received){
+		sharedTextArea.append("Sent by  : " + remote_addr.getHostAddress() +"\n");
+        	sharedTextArea.append("Send from: " + packet.getPort() +"\n");
+                packetStatus status = new packetStatus(socket, packet);
+                status.start();
+                long elapsedTime=0;
+                while((elapsedTime < 300) && !received){
+                    waitTime = System.currentTimeMillis();
+                    elapsedTime = waitTime - startTime;
+                
                 }
+                status.interrupt();
+                System.out.println("test2");
                 if(received){
-                    socket.receive(packet);
                     stopTime = System.currentTimeMillis();
                     totalDuration = stopTime - startTime;
-                    ClientTextArea.append("Host acknowledged packet " + clientSent + " after " +
-                            totalDuration + " ms");
+                    sharedTextArea.append("Host acknowledged packet " + clientSent + " after " +
+                            totalDuration + " ms\n\n");
                     received = false;
                     clientSent++;
                     
                 }
-                ClientTextArea.append("\n\n");
+                else {sharedTextArea.append("Packet was"
+                        + " not acknowleged by the host!\n\n");
+                        received = false;
+                        clientSent++;
+                }
+             
 		}
                 catch (UnknownHostException ue){
-                        ClientTextArea.append("Unknown host "+hostname + "\n\n");
+                        sharedTextArea.append("Unknown host "+hostname + "\n\n");
                 }
 		catch (IOException e){
-			ClientTextArea.append("Error - " + e + "\n\n");
+			sharedTextArea.append("Error - " + e + "\n\n");
 		}
             }
+        }
+    }
+      class packetStatus extends Thread{
+        public DatagramSocket s;
+        public DatagramPacket p;
+        public packetStatus(DatagramSocket socket, DatagramPacket packet) throws IOException{
+            s = socket;
+            p = packet;
+        }
+        @Override
+        public void run(){
+            try{
+                s.receive(p);
+                System.out.println("test");
+                received = true;
+            }
+            catch(Exception e){}
         }
     }
     /**
@@ -341,15 +434,21 @@ public class UDPgui extends javax.swing.JFrame {
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextArea ClientTextArea;
-    private javax.swing.JTextArea ServerTextArea;
-    private javax.swing.JButton SimulateButton;
-    private javax.swing.JLabel instructionsLabel;
+    private javax.swing.JRadioButton clientRadioButton;
+    private javax.swing.JTextField iPTextField;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JLabel portLabel;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.ButtonGroup options;
+    private javax.swing.JTextArea rulesTextArea;
+    private javax.swing.JRadioButton serverRadioButton;
+    private javax.swing.JLabel sharedLabel;
+    private javax.swing.JLabel sharedRulesLabel;
+    private javax.swing.JTextArea sharedTextArea;
+    private javax.swing.JButton simulateButton;
     // End of variables declaration//GEN-END:variables
 }
